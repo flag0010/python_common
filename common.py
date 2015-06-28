@@ -57,7 +57,7 @@ def order(x):
     '''returns the sample indeces that would return the list in sorted order
        ie: 
        x = (4,3,406,5)
-       sorted(x) = [x[i] for i in order(x)]'''
+       sorted(x) == [x[i] for i in order(x)]'''
     out={}
     idx=0
     for i in x:
