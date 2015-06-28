@@ -92,8 +92,6 @@ def get_fasta(file_name):
         out[i] = ''.join(out[i])
     return out
 
-print_fasta = lambda s: ('>'+i+'\n' + s[i] for i in s)
-
 def get_fasta_buffer(file_name):
     '''An efficient fasta reader that is buffered and therefore
        useful for big fasta files.  It returns each fasta one by 
@@ -110,35 +108,7 @@ def get_fasta_buffer(file_name):
             current_seq = []
     yield (current_name, ''.join(current_seq))
 
-def get_file(filename, splitchar = 'NA', buffered = False):
-    if not buffered:
-        if splitchar == 'NA':
-            return [i.strip().split() for i in open(filename)]
-        else: return [i.strip().split(splitchar) for i in open(filename)]
-    else:
-        if splitchar == 'NA':
-            return (i.strip().split() for i in open(filename))
-        else: return (i.strip().split(splitchar) for i in open(filename))
-
-def sort_dict_by_val(aDict):
-    '''returns a list of tuples sorted by the dict values'''
-    return sorted(aDict.iteritems(), key=lambda (k,v): (v,k))
-
-def pairwise(li):  
-    '''a convienience function that produces all pairwise comparisons from a list'''
-    for i in range(len(li)):
-        j = i+1
-        while j < len(li):
-            yield (li[i], li[j])
-            j += 1
-
-class Hash(defaultdict):
-    def __init__(self):
-        defaultdict.__init__(self, Hash)
-    def __reduce__(self):
-        r = defaultdict.__reduce__(self)
-        # override __init__ args
-        return (r[0], (), r[2], r[3], r[4]) 
+print_fasta = lambda s: ('>'+i+'\n' + s[i] for i in s)
 
 ###Set functions
 def intersection(sets):
@@ -162,6 +132,38 @@ def join(seqs):
     return reduce(operator.concat, seqs)
 
 #Misc
+def get_file(filename, splitchar = 'NA', buffered = False):
+    if not buffered:
+        if splitchar == 'NA':
+            return [i.strip().split() for i in open(filename)]
+        else: return [i.strip().split(splitchar) for i in open(filename)]
+    else:
+        if splitchar == 'NA':
+            return (i.strip().split() for i in open(filename))
+        else: return (i.strip().split(splitchar) for i in open(filename))
+
+def sort_dict_by_val(aDict):
+    '''returns a list of tuples sorted by the dict values'''
+    return sorted(aDict.iteritems(), key=lambda (k,v): (v,k))
+
+def pairwise(li):  
+    '''a convienience function that produces all pairwise comparisons from a list'''
+    for i in range(len(li)):
+        j = i+1
+        while j < len(li):
+            yield (li[i], li[j])
+            j += 1
+
+class Hash(defaultdict):
+    '''works like a perl hash, auto-initializing
+       Note: be careful with "if x in Hash"'''
+    def __init__(self):
+        defaultdict.__init__(self, Hash)
+    def __reduce__(self):
+        r = defaultdict.__reduce__(self)
+        # override __init__ args
+        return (r[0], (), r[2], r[3], r[4]) 
+
 def count_all(xlist, proportions=False):
     '''Count all the items in a list, return a dict
        with the item as key and counts as value.
