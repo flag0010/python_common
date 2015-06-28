@@ -2,7 +2,7 @@
 python_common contains a single script, common.py, with a number of python functions I find useful.  
 There are no dependencies outside the python2.7 standard lib.
 
-Functions by category are as follows:
+Functions by category are as follows, see the source for documentation:
 
 -Stats and Math
 
