@@ -4,6 +4,14 @@ import random
 from collections import defaultdict
 
 def weighted_sampler(pop_dict):
+    """randomly sample a dictionary's keys based on weights stored as values
+       example:
+           m = {'a':3, 'b':2, 'c':5}
+           samps = [weighted_sampler(m) for _ in xrange(1000)]  #should be 300 a, 200 b, and 500 c
+           samps.count('a') 
+           samps.count('b')
+           samps.count('c')
+           """
     ch = random.random() * sum(pop_dict.values())
     f = sorted(pop_dict.keys())
     for i, w in enumerate([pop_dict[x] for x in f]):
