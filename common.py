@@ -3,15 +3,20 @@ import operator
 import random
 from collections import defaultdict
 
+###Stats and math functions
 def weighted_sampler(pop_dict):
     """randomly sample a dictionary's keys based on weights stored as values
        example:
            m = {'a':3, 'b':2, 'c':5}
-           samps = [weighted_sampler(m) for _ in xrange(1000)]  #should be 300 a, 200 b, and 500 c
-           samps.count('a') 
-           samps.count('b')
-           samps.count('c')
-           """
+           samps = [weighted_sampler(m) for _ in xrange(1000)]
+           #samps should be a ~ 300, b ~ 200, and c ~ 500
+           >>> samps.count('a')
+           304
+           >>> samps.count('b')
+           211
+           >>> samps.count('c')
+           485
+       of course, being a random sampler your results will vary"""
     ch = random.random() * sum(pop_dict.values())
     f = sorted(pop_dict.keys())
     for i, w in enumerate([pop_dict[x] for x in f]):
@@ -19,6 +24,9 @@ def weighted_sampler(pop_dict):
         if ch < 0: return f[i]
 
 def choose(n,k):
+    '''implements binomial coefficient function
+       see: https://en.wikipedia.org/wiki/Binomial_coefficient 
+       performance not tested on really large values'''
     return reduce(lambda a,b: a*(n-b)/(b+1),xrange(k),1)
 
 def sampler(pop, size, replacement=False):
@@ -30,14 +38,48 @@ def sampler(pop, size, replacement=False):
     else:
         return random.sample(pop, size)          
 
+def rank(x):
+    '''returns the sample rank of the elements in a list'''
+    out={}
+    idx=0
+    for i in x:
+        out[idx] = i
+        idx+=1
+    p1 =  (j[0] for j in sorted(sort_dict_by_val(out), key=lambda s: s[1]))
+    p2 = range(len(x))
+    idx=0
+    for i in p1:
+        p2[i] = idx
+        idx+=1
+    return p2
+
+def order(x):
+    '''returns the sample indeces that would return the list in sorted order
+       ie: 
+       x = (4,3,406,5)
+       sorted(x) = [x[i] for i in order(x)]'''
+    out={}
+    idx=0
+    for i in x:
+        out[idx] = i
+        idx+=1
+    p1 =  [j[0] for j in sorted(sort_dict_by_val(out), key=lambda s: s[1])]
+    return p1
+
+###Useful functions for bioinformatics
+###NOTE: biopython offers more robust versions, but sometimes you just need something quick and dirty
 def revcom (s):
-    '''returns the reverse complement of a DNA sequence string'''
+    '''returns the reverse complement of a DNA sequence string
+       only accepts ACGT, upper or lowercase'''
     rv_s = s[::-1] #strange python string reversal, it works!
     trans_table = maketrans("atcgATCG", "tagcTAGC")
     rv_comp_s = rv_s.translate(trans_table)
     return rv_comp_s
 
 def get_fasta(file_name):
+    '''read a properly formated fasta and return a dict
+       with key=readname and value=sequence
+       reads the whole file in'''
     d = [i.strip() for i in open(file_name,'r')]
     out={}
     for i in d:
@@ -98,6 +140,7 @@ class Hash(defaultdict):
         # override __init__ args
         return (r[0], (), r[2], r[3], r[4]) 
 
+###Set functions
 def intersection(sets):
     """Get the intersection of all input sets"""
     if all((type(i)==type(set()) for i in sets)):
@@ -118,9 +161,12 @@ def join(seqs):
     """Join any input sequences that support concatenation"""
     return reduce(operator.concat, seqs)
 
+#Misc
 def count_all(xlist, proportions=False):
     '''Count all the items in a list, return a dict
-       with the item as key and counts as value'''
+       with the item as key and counts as value.
+       If proportions are set to True, the values 
+       are the proportions not counts'''
     out =  defaultdict(int)
     for i in xlist: out[i]+=1
     if proportions:
@@ -130,6 +176,7 @@ def count_all(xlist, proportions=False):
         return out2
     else: return out
 
+###Combinatorial functions
 def product(*args, **kwds):
     ''' product('ABCD', 'xy') --> Ax Ay Bx By Cx Cy Dx Dy
         product(range(2), repeat=3) --> 000 001 010 011 100 101 110 111'''
@@ -166,32 +213,4 @@ def combinations_with_replacement(iterable, r):
     for indices in product(range(n), repeat=r):
         if sorted(indices) == list(indices):
             yield tuple(pool[i] for i in indices)
-
-def rank(x):
-    '''returns the sample rank of the elements in a list'''
-    out={}
-    idx=0
-    for i in x:
-        out[idx] = i
-        idx+=1
-    p1 =  (j[0] for j in sorted(sort_dict_by_val(out), key=lambda s: s[1]))
-    p2 = range(len(x))
-    idx=0
-    for i in p1:
-        p2[i] = idx
-        idx+=1
-    return p2
-
-def order(x):
-    '''returns the sample indeces that would return the list in sorted order
-       ie: 
-       x = (4,3,406,5)
-       sorted(x) = [x[i] for i in order(x)]'''
-    out={}
-    idx=0
-    for i in x:
-        out[idx] = i
-        idx+=1
-    p1 =  [j[0] for j in sorted(sort_dict_by_val(out), key=lambda s: s[1])]
-    return p1
 
