@@ -6,52 +6,52 @@ Functions by category are as follows:
 
 -Stats and Math
 
-  weighted_sampler
+    weighted_sampler
 
-  choose
+    choose
 
-  sampler
+    sampler
 
-  rank
+    rank
 
-  order
+    order
 
 -Bioinformatics
 
-  revcom
+    revcom
 
-  get_fasta
+    get_fasta
 
-  print_fasta
+    print_fasta
 
-  get_fasta_buffer
+    get_fasta_buffer
 
 -Set functions
 
-  intersection
+    intersection
 
-  union
+    union
 
-  join
+    join
 
 -Misc
 
-  get_file
+    get_file
 
-  count_all
+    count_all
 
-  Hash
+    Hash
 
-  pairwise
+    pairwise
 
-  sort_dict_by_val
+    sort_dict_by_val
 
 -Combinatorial functions
 
-  product
+    product
 
-  permutations
+    permutations
 
-  combinations
+    combinations
 
-  combinations_with_replacement
+    combinations_with_replacement
