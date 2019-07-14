@@ -1,3 +1,5 @@
+#modified to work with python3
+##############################
 import operator
 import random
 from collections import defaultdict
