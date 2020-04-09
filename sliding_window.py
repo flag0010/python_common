@@ -1,12 +1,12 @@
 from collections import deque
 mean = lambda s: sum(s)*len(s)**-1
 
-def sliding_window(x, window_size, output_interval=10, flip_start=False, summary_stat=mean, start_output_frac = 1.0):
+def sliding_window(x, window_size, output_interval=1, flip_start=False, summary_stat=mean, start_output_frac = 1.0):
     '''simple sliding window implementation
        x = input values you want to slide windows over
        window_size = size of window
-       output_interval = the number of strides you want the window to take before outputing a value, min=1, max=window_size
-       flip_start = logical, do you wan to flip the first window and tack it onto the beginning.
+       output_interval = the number of strides you want the window to take before outputing a value, min=1, max=window_size, default=1
+       flip_start = logical, do you wan to flip the first window and tack it onto the beginning. default = False
                     i.e. if x = [0,1,2,3,4,5,6,7,8] and window size is 3, then with flip_start=True
                     x becomes [2,1,0,0,1,2,3,4,5,6,7,8]. This fills the sliding window with a mirror image of the beginning values
                     and is a decent way (sometimes) to avoid outputing nothing while the window is filling
