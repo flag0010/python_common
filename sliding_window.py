@@ -30,7 +30,7 @@ if __name__ == '__main__':
     import random
     from math import sin
     from matplotlib import pyplot as plt
-    k = [random.random()+sin(i/100.) for i in xrange(10000)]
+    k = [random.random()+sin(i/100.) for i in range(10000)]
     x = list(sliding_window([i/100. for i in range(10000)], 10))
     y = [i for i in sliding_window(k, 10)]
     plt.scatter([i/100. for i in range(10000)], k, alpha=0.1, marker='.')
