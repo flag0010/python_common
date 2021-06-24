@@ -1,6 +1,6 @@
 # python_common
 python_common contains a single script, common.py, with a number of python functions I find useful.  
-There are no dependencies outside the python2.7 standard lib.
+There are no dependencies outside the python3.6 or greater standard lib.
 
 Functions by category are as follows, see the source for documentation:
 
@@ -26,32 +26,14 @@ Functions by category are as follows, see the source for documentation:
 
     get_fasta_buffer
 
--Set functions
-
-    intersection
-
-    union
-
-    join
-
 -Misc
 
     get_file
 
     count_all
 
-    Hash
-
     pairwise
 
     sort_dict_by_val
 
--Combinatorial functions
-
-    product
-
-    permutations
-
-    combinations
-
-    combinations_with_replacement
+    rank_list
